@@ -242,6 +242,9 @@ def GetFileExt(fullName):
 def RemoveAllDS_StoreFileInTheFolder(folder):
     return RemoveAllExceptionFileInTheFolder(folder, "^\.DS_Store")
 
+def RemoveAllPycFileInTheFolder(folder):
+    return RemoveAllExceptionFileInTheFolder(folder, ".pyc")
+
 
 def RemoveAllExceptionFileWithListInTheFolder(folder, key_List):
     if isinstance(key_List, tuple) is False:
@@ -265,5 +268,5 @@ def RemoveAllExceptionFileInTheFolder(folder, re_Key):
 
 
 if __name__ == '__main__':
-    f = u'/Volumes/Data/StockData'
-    RemoveAllDS_StoreFileInTheFolder(f)
+    f = u'/Volumes/Data/OpenSource/StockAnalystAssistant'
+    RemoveAllPycFileInTheFolder(f)

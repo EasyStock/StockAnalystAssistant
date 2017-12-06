@@ -69,8 +69,8 @@ def GetAllHistoryDataAndSaveTo(folder, autype='hfq', forceUpdate=False):
         current = datetime.datetime.now()
         t = (current - last)
         total = current - start
-        print('==StockID:%s,index:%d,all:%d,remain:%d,    \
-              time:%s,totalTime:%s==' % (stockID, index, size, size-count,
+        print("==StockID:%s,index:%d,all:%d,remain:%d,    \
+              time:%s,totalTime:%s==" % (stockID, index, size, size-count,
                                          t, total))
         last = current
         count += 1
