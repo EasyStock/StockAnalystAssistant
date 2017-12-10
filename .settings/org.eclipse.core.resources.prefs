@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+encoding//src/StockAnalyzerTest/AnalyzerTest_TestOneFolder.py=utf-8
+encoding//src/StockAnalyzerTest/AverageLineThroughAnalysisTest.py=utf-8
+encoding//src/StockAnalyzers/AverageLineThroughAnalysis21_34.py=utf-8
+encoding//src/StockAnalyzers/AverageLineThroughAnalysisBase.py=utf-8
+encoding//src/StockAnalyzers/StockAnalysisBase.py=utf-8
+encoding//src/Utility/MultiProcessMgr.py=utf-8

@@ -4,6 +4,7 @@ Created on 2017-11-24 19:59:25
 @author: jianpinh
 
 '''
+import datetime
 from StockAnalyzers.StockAnalysisBase import CStockAnalysisBase
 from StockQuota import StockQuota_AvgLines as SQAL
 from StockFilters.IsLineUpThrough import CIsLineUpThrough
@@ -27,18 +28,18 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
 
     def _lineNThoughLineM(self, N, M, lineN, lineM, retRes,
                           param=None):
+        # N 日均线 上穿 M日均线
         lineUp = CIsLineUpThrough()
         r1 = lineUp.doFilterLastDay((lineN, lineM), param, None)
         # key1 = u'04_%02d->%02d' % (N, M)
         key2 = u'04_%02d->%02d点' % (N, M)
-        value = u'%d穿%d:%d'%(N, M, r1[1])
         if r1[0] is True:
             # retRes[key1] = True
-            retRes[key2] = value
+            retRes[key2] = r1[1]
         else:
             # retRes[key1] = False
             retRes[key2] = u''
-        return r1[0]
+        return r1
 
     def _isLineDirectionUp(self, N, data, retRes, lastN, delta):
         isLineDirection = CIsLineDirectionUp()
@@ -69,10 +70,14 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
             # 8日均线必须向上
             if self._isLine8DirectionUp(line8) is False:
                 return  False
+            # 一下条件必须满足其一：
+            # 1. 8日均线上穿34日均线
+            # 2. 13日均线上穿34日均线
+            # 3. 21日均线上穿34日均线
             r1 = self._lineNThoughLineM(8, 34, line8, line34, outRes, 10)
             r2 = self._lineNThoughLineM(13, 34, line13, line34, outRes, 10)
             r3 = self._lineNThoughLineM(21, 34, line21, line34, outRes, 10)
-            if not r1 and not r2 and not r3:
+            if not r1[0] and not r2[0] and not r3[0]:
                 return False
 
             #添加一些附加信息
@@ -167,6 +172,25 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
                 return self._doAnalysisLastNDay(stockId, data,
                                                 lastN, lParam, rParam)
 
+    def _isSuspension(self,dates):
+        if dates is None:
+            return True
+
+        if not isinstance(dates,(list, tuple)):
+            return True
+
+        #新股不做分析
+        if len(dates) < 50:
+            return True
+
+        today = datetime.date.today()
+        tomorrow = today + datetime.timedelta(days=-3)
+        last3DayStr = tomorrow.strftime('%Y-%m-%d')
+        if dates[-1]< last3DayStr:
+            print dates[-1], last3DayStr
+            return True
+        return False
+    
     def doAnalysisLastDay(self, stockId=None, dataFrame=None,
                           lParam=None, rParam=None):
         if not self._checkParam(dataFrame, lParam, rParam):
@@ -190,6 +214,10 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
 
         avgLine = (line5, line8, line13, line21, line34)
         if self._isConditionMatch(avgLine, res) is False:
+            return None
+
+        # 停盘的股票过滤掉
+        if self._isSuspension(dates):
             return None
 
         return res
@@ -224,6 +252,9 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
             if self._isConditionMatch(subAvgLine, res) is False:
                 continue
 
+            # 停盘的股票过滤掉
+            if self._isSuspension(dates[:index+1]):
+                continue
             ret.append(res)
         return ret
 
@@ -254,6 +285,10 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
 
             subAvgLine = (line5, line8, line13, line21, line34)
             if self._isConditionMatch(subAvgLine, res) is False:
+                continue
+
+            # 停盘的股票过滤掉
+            if self._isSuspension(dates[:index+1]):
                 continue
 
             ret.append(res)
