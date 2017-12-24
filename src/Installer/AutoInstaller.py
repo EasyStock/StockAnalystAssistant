@@ -9,12 +9,16 @@ import os
 
 
 def Install():
-    commands = (u'/usr/local/bin/easy_install pip',
-                u'/usr/local/bin/pip install bs4',
-                u'/usr/local/bin/pip install pyyaml',
-                u'/usr/local/bin/pip install tushare',
-                u'/usr/local/bin/pip install numpy',
-                u'/usr/local/bin/pip install pandas',
+    commands = (u'easy_install pip',
+                u'pip install bs4',
+                u'pip install pyyaml',
+                u'pip install tushare',
+                u'pip install numpy',
+                u'pip install pandas',
+                u'pip install requests',
+                u'pip install xlwt',
+                u'pip install xlrd',
+                u'pip install yaml',
                 )
     for x in commands:
         print(os.system(x))

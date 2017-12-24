@@ -14,13 +14,12 @@ class CAverageLineThroughAnalysis21_34(CAverageLineThroughAnalysisBase):
 
     def _isConditionMatch(self, avgLines, outRes, lParam=None, rParam=None):
         (line5, line8, line13, line21, line34) = avgLines
-
         if lParam is None:
             # 5日均线必须向上
-            if self._isLine5DirectionUp(line5) is False:
+            if not self._isLine5DirectionUp(line5):
                 return  False
             # 8日均线必须向上
-            if self._isLine8DirectionUp(line8) is False:
+            if not self._isLine8DirectionUp(line8):
                 return  False
 
             # 3. 21日均线上穿34日均线

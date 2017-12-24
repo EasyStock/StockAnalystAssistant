@@ -17,10 +17,10 @@ class CAverageLineThroughAnalysis13_34(CAverageLineThroughAnalysisBase):
 
         if lParam is None:
             # 5日均线必须向上
-            if self._isLine5DirectionUp(line5) is False:
+            if not self._isLine5DirectionUp(line5):
                 return  False
             # 8日均线必须向上
-            if self._isLine8DirectionUp(line8) is False:
+            if not self._isLine8DirectionUp(line8):
                 return  False
 
             # 3. 21日均线上穿34日均线

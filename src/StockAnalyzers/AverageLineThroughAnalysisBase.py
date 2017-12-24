@@ -57,19 +57,37 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
 
     def _isLine8DirectionUp(self, avgLine8, param = None):
         # 8日均线必须向上, 8日均线3天的方向必须向上的
-        r5 = self._isLineDirectionUp(8, avgLine8, None, 3, 0.9)
+        return self._isLineDirectionUp(8, avgLine8, None, 3, 0.9)
 
+    def _isLine13DirectionUp(self, avgLine13, param = None):
+        # 13日均线必须向上, 13日均线2天的方向必须向上的
+        return self._isLineDirectionUp(13, avgLine13, None, 2, 0.9)
+
+    def _isLine21DirectionUp(self, avgLine21, param = None):
+        # 21日均线必须向上, 21日均线2天的方向必须向上的
+        return self._isLineDirectionUp(21, avgLine21, None, 2, 0.9)
+
+    def _isLine34DirectionUp(self, avgLine34, param = None):
+        # 34日均线必须向上, 34日均线2天的方向必须向上的
+        return self._isLineDirectionUp(34, avgLine34, None, 2, 0.9)
+
+    def _isLine55DirectionUp(self, avgLine55, param = None):
+        # 55日均线必须向上, 55日均线2天的方向必须向上的
+        return self._isLineDirectionUp(55, avgLine55, None, 2, 0.9)
 
     def _isConditionMatch(self, avgLines, outRes, lParam=None, rParam=None):
         (line5, line8, line13, line21, line34) = avgLines
 
         if lParam is None:
             # 5日均线必须向上
-            if self._isLine5DirectionUp(line5) is False:
+            if not self._isLine5DirectionUp(line5):
                 return  False
             # 8日均线必须向上
-            if self._isLine8DirectionUp(line8) is False:
+            if not self._isLine8DirectionUp(line8):
                 return  False
+            if not self._isLine13DirectionUp(line13):
+                return  False
+
             # 一下条件必须满足其一：
             # 1. 8日均线上穿34日均线
             # 2. 13日均线上穿34日均线
