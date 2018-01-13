@@ -9,7 +9,7 @@ import os
 
 
 def Install():
-    commands = (u'easy_install pip',
+    commands = (
                 u'pip install bs4',
                 u'pip install pyyaml',
                 u'pip install tushare',
@@ -18,7 +18,6 @@ def Install():
                 u'pip install requests',
                 u'pip install xlwt',
                 u'pip install xlrd',
-                u'pip install yaml',
                 )
     for x in commands:
         print(os.system(x))

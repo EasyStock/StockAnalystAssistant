@@ -85,8 +85,11 @@ class CAverageLineThroughAnalysis(CStockAnalysisBase):
             self._IsLineDirectionUp(8, tmpAvgLine8, res, 5, 0.85)
             self._IsLineDirectionUp(13, tmpAvgLine13, res, 3, 0.85)
             self._IsLineDirectionUp(21, tmpAvgLine21, res, 3, 0.85)
-            self._IsLineDirectionUp(34, tmpAvgLine34, res, 3, 0.85)
-            self._IsLineDirectionUp(55, tmpAvgLine55, res, 3, 0.85)
+            if not self._isLine55DirectionUp(tmpAvgLine55):
+                continue
+
+            if not self._isLine34DirectionUp(tmpAvgLine34):
+                continue
 
             self._lineNThoughLineM(5, 8, tmpAvgLine5, tmpAvgLine8, res, 10)
 
@@ -135,6 +138,7 @@ class CAverageLineThroughAnalysis(CStockAnalysisBase):
         line13 = avgLines[13]
         line21 = avgLines[21]
         line34 = avgLines[34]
+        line55 = avgLines[55]
 
         res = {}
         res[u'01_股票代码'] = stockId
@@ -145,6 +149,16 @@ class CAverageLineThroughAnalysis(CStockAnalysisBase):
         r3 = self._lineNThoughLineM(21, 34, line21, line34, res, 10)
         if not r1 and not r2 and not r3:
             return None
+
+        # 34日均线必须向上
+        r34 = self._isLine34DirectionUp(line34)
+        if not r34:
+            return None
+
+        # 55日均线必须向上
+        r55 = self._isLine55DirectionUp(line55)
+        if not r55:
+           return None
 
         # 5日均线必须向上
         r4 = self._IsLineDirectionUp(5, line5, None, 5, 0.99)
@@ -182,6 +196,7 @@ class CAverageLineThroughAnalysis(CStockAnalysisBase):
             line13 = avgLines[13][:index]
             line21 = avgLines[21][:index]
             line34 = avgLines[34][:index]
+            line55 = avgLines[55][:index]
 
             res = {}
             res[u'01_股票代码'] = stockId
@@ -191,6 +206,16 @@ class CAverageLineThroughAnalysis(CStockAnalysisBase):
             r2 = self._lineNThoughLineM(13, 34, line13, line34, res, 10)
             r3 = self._lineNThoughLineM(21, 34, line21, line34, res, 10)
             if not r1 and not r2 and not r3:
+                continue
+
+            # 34日均线必须向上
+            r34 = self._isLine34DirectionUp(line34)
+            if not r34:
+                continue
+
+            # 55日均线必须向上
+            r55 = self._isLine55DirectionUp(line55)
+            if not r55:
                 continue
 
             # 5日均线必须向上
@@ -229,6 +254,7 @@ class CAverageLineThroughAnalysis(CStockAnalysisBase):
             line13 = avgLines[13][:index]
             line21 = avgLines[21][:index]
             line34 = avgLines[34][:index]
+            line55 = avgLines[55][:index]
 
             res = {}
             res[u'01_股票代码'] = stockId
@@ -238,6 +264,16 @@ class CAverageLineThroughAnalysis(CStockAnalysisBase):
             r2 = self._lineNThoughLineM(13, 34, line13, line34, res, 10)
             r3 = self._lineNThoughLineM(21, 34, line21, line34, res, 10)
             if not r1 and not r2 and not r3:
+                continue
+
+            # 34日均线必须向上
+            r34 = self._isLine34DirectionUp(line34)
+            if not r34:
+                continue
+
+            # 55日均线必须向上
+            r55 = self._isLine55DirectionUp(line55)
+            if not r55:
                 continue
 
             # 5日均线必须向上
@@ -257,6 +293,23 @@ class CAverageLineThroughAnalysis(CStockAnalysisBase):
             ret.append(res)
         return ret
 
+    def _isLine34DirectionUp(self, avgLine34, param = None):
+        # 34日均线必须向上, 34日均线钝化严重，所以34日均线必须严格判断
+        if len(avgLine34) <= 3:
+            return False
+
+        if avgLine34[-2] <= avgLine34[-2] <= avgLine34[-1]:
+            return True
+        return False
+
+    def _isLine55DirectionUp(self, avgLine55, param = None):
+        # 55日均线必须向上, 55日均线钝化严重，所以55日均线必须严格判断
+        if len(avgLine55) <= 3:
+            return False
+
+        if avgLine55[-2] <= avgLine55[-2] <= avgLine55[-1]:
+            return True
+        return False
 
 if __name__ == '__main__':
     pass

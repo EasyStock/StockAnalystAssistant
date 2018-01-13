@@ -80,4 +80,4 @@ def GetAllHistoryDataAndSaveTo_MultiProcess(folder, autype='hfq', forceUpdate=Fa
 
 if __name__ == '__main__':
     foder = u'/Volumes/Data/StockData/所有股票历史信息/'
-    GetAllHistoryDataAndSaveTo_MultiProcess(foder, 'hfq', True)
+    GetAllHistoryDataAndSaveTo_MultiProcess(foder, 'hfq', False)

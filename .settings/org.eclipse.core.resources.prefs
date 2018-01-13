@@ -1,7 +1,17 @@
 eclipse.preferences.version=1
+encoding//src/GetStockHistoryData/GetStockHistoryDataMgr/GetStockHistoryDataMgr_10jqka.py=utf-8
+encoding//src/GetStockHistoryData/GetStockHistoryDataMgr/GetStockHistoryDataMgr_10jqka_MultiProcess.py=utf-8
 encoding//src/StockAnalyzerTest/AnalyzerTest_TestOneFolder.py=utf-8
 encoding//src/StockAnalyzerTest/AverageLineThroughAnalysisTest.py=utf-8
+encoding//src/StockAnalyzers/AverageLineThroughAnalysis.py=utf-8
+encoding//src/StockAnalyzers/AverageLineThroughAnalysis13_34.py=utf-8
 encoding//src/StockAnalyzers/AverageLineThroughAnalysis21_34.py=utf-8
+encoding//src/StockAnalyzers/AverageLineThroughAnalysis8_34.py=utf-8
 encoding//src/StockAnalyzers/AverageLineThroughAnalysisBase.py=utf-8
 encoding//src/StockAnalyzers/StockAnalysisBase.py=utf-8
+encoding//src/StockExamle/StockExamleItem.py=utf-8
+encoding//src/StockFilters/IsLineDirectionHorizontal.py=utf-8
+encoding//src/StockFilters/IsLineDirectionUp.py=utf-8
+encoding//src/StockMath/AverageLine/AverageLine.py=utf-8
+encoding//src/StockQuota/StockQuota_AvgLines.py=utf-8
 encoding//src/Utility/MultiProcessMgr.py=utf-8

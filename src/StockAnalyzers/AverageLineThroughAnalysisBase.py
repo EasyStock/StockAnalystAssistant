@@ -68,15 +68,27 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
         return self._isLineDirectionUp(21, avgLine21, None, 2, 0.9)
 
     def _isLine34DirectionUp(self, avgLine34, param = None):
-        # 34日均线必须向上, 34日均线2天的方向必须向上的
-        return self._isLineDirectionUp(34, avgLine34, None, 2, 0.9)
+        # 34日均线必须向上, 34日均线钝化严重，所以34日均线必须严格判断
+        if len(avgLine34) <= 3:
+            return False
+
+        if avgLine34[-2] <= avgLine34[-2] <= avgLine34[-1]:
+            return True
+
+        return False
 
     def _isLine55DirectionUp(self, avgLine55, param = None):
-        # 55日均线必须向上, 55日均线2天的方向必须向上的
-        return self._isLineDirectionUp(55, avgLine55, None, 2, 0.9)
+        # 55日均线必须向上, 55日均线钝化严重，所以55日均线必须严格判断
+        if len(avgLine55) <= 3:
+            return False
+
+        if avgLine55[-2] <= avgLine55[-2] <= avgLine55[-1]:
+            return True
+
+        return False
 
     def _isConditionMatch(self, avgLines, outRes, lParam=None, rParam=None):
-        (line5, line8, line13, line21, line34) = avgLines
+        (line5, line8, line13, line21, line34, line55) = avgLines
 
         if lParam is None:
             # 5日均线必须向上
@@ -86,7 +98,13 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
             if not self._isLine8DirectionUp(line8):
                 return  False
             if not self._isLine13DirectionUp(line13):
-                return  False
+                return False
+
+            if not self._isLine34DirectionUp(line34):
+                return False
+
+            if not self._isLine55DirectionUp(line55):
+                return False
 
             # 一下条件必须满足其一：
             # 1. 8日均线上穿34日均线
@@ -160,13 +178,14 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
             line13 = avgLines[13][:index]
             line21 = avgLines[21][:index]
             line34 = avgLines[34][:index]
+            line55= avgLines[34][:index]
 
             res = {}
             res[u'01_股票代码'] = stockId
             res[u'02_日期'] = dates[index]
             res[u'03_价格'] = closePrice[index]
 
-            subAvgLine = (line5, line8, line13, line21, line34)
+            subAvgLine = (line5, line8, line13, line21, line34, line55)
             # set the lparam is not None
             if self._isConditionMatch(subAvgLine, res, ()) is False:
                 continue
@@ -224,13 +243,14 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
         line13 = avgLines_dict[13]
         line21 = avgLines_dict[21]
         line34 = avgLines_dict[34]
+        line55 = avgLines_dict[55]
 
         res = {}
         res[u'01_股票代码'] = stockId
         res[u'02_日期'] = dates[-1]
         res[u'03_价格'] = closePrice[-1]
 
-        avgLine = (line5, line8, line13, line21, line34)
+        avgLine = (line5, line8, line13, line21, line34, line55)
         if self._isConditionMatch(avgLine, res) is False:
             return None
 
@@ -260,13 +280,14 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
             line13 = avgLines[13][:index]
             line21 = avgLines[21][:index]
             line34 = avgLines[34][:index]
+            line55 = avgLines[55][:index]
 
             res = {}
             res[u'01_股票代码'] = stockId
             res[u'02_日期'] = dates[index]
             res[u'03_价格'] = closePrice[index]
 
-            subAvgLine = (line5, line8, line13, line21, line34)
+            subAvgLine = (line5, line8, line13, line21, line34, line55)
             if self._isConditionMatch(subAvgLine, res) is False:
                 continue
 
@@ -295,13 +316,14 @@ class CAverageLineThroughAnalysisBase(CStockAnalysisBase):
             line13 = avgLines[13][:index]
             line21 = avgLines[21][:index]
             line34 = avgLines[34][:index]
+            line55 = avgLines[55][:index]
 
             res = {}
             res[u'01_股票代码'] = stockId
             res[u'02_日期'] = dates[index]
             res[u'03_价格'] = closePrice[index]
 
-            subAvgLine = (line5, line8, line13, line21, line34)
+            subAvgLine = (line5, line8, line13, line21, line34, line55)
             if self._isConditionMatch(subAvgLine, res) is False:
                 continue
 
