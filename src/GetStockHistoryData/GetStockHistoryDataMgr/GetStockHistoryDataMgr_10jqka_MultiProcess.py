@@ -12,7 +12,6 @@ import re
 
 from Utility.MultiProcessMgr import CMultiProcessMgr
 from Utility.PathUtil import DeleteFolderNotEmpty, CheckFileName, IsFileExist
-import datetime
 
 from GetStockHistoryData.Engines import HistoryDataEngine_10jqka as jqka
 
@@ -80,4 +79,4 @@ def GetAllHistoryDataAndSaveTo_MultiProcess(folder, autype='hfq', forceUpdate=Fa
 
 if __name__ == '__main__':
     foder = u'/Volumes/Data/StockData/所有股票历史信息/'
-    GetAllHistoryDataAndSaveTo_MultiProcess(foder, 'hfq', False)
+    GetAllHistoryDataAndSaveTo_MultiProcess(foder, 'hfq', True)

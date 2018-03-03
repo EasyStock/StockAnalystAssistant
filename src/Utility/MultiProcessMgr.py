@@ -50,7 +50,7 @@ class CMultiProcessMgr(object):
         else:
             timeSpend = current - self._lastTime
         self._lastTime = current
-        print 'all:%d, succeed:%d, failed:%d, remain:%d, percetage:%.3f%%,timeSpend:%s'%(self._allTask, self._succeed, self._failed,remain,percentage,timeSpend)
+        print 'all:%d, succeed:%d, failed:%d, remain:%d, percetage:%.3f%%, timeSpend:%s'%(self._allTask, self._succeed, self._failed,remain,percentage,timeSpend)
         
     
     def StartMultiProcess(self,processNum = 8, iterableJobs = [], jobFunc=None, mergeResult=False):
@@ -66,7 +66,6 @@ class CMultiProcessMgr(object):
             else:
                 param.append(job)
             pool.apply_async(multiProcessJobFunc, args = (param,), callback = self.callBack)
-            
         pool.close()
         pool.join()
         end = datetime.datetime.now()

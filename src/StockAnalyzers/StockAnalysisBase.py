@@ -4,7 +4,6 @@ Created on 2017-10-15 12:18:53
 @author: jianpinh
 
 '''
-import multiprocessing
 
 from Utility.MultiProcessMgr import CMultiProcessMgr
 from Utility.PathUtil import IsFileExist, IsFolderExist, ListAllTheFilesInDir,\
@@ -13,24 +12,27 @@ import pandas as pd
 
 
 def AnalysisOneFile_MultiProcess_Fun(param):
-    (filter, fileName, lastN, lParam, rParam) = param
-    res = filter.AnalysOneFile(fileName, lastN, lParam, rParam)
+    (filter_, fileName, lastN, lParam, rParam) = param
+    res = filter_.AnalysOneFile(fileName, lastN, lParam, rParam)
     if res is None:
         return False
     else:
-        return (True,res)
-    
-def AnalysisOneFolderWithMultiProcess(folder, filter, lastN=1, lParam=None, rParam=None, processNum = 10):
+        return (True, res)
+
+
+def AnalysisOneFolderWithMultiProcess(folder, filter_, lastN=1,
+                                      lParam=None, rParam=None, processNum=10):
     if IsFolderExist(folder) is False:
         return None
 
     files = ListAllTheFilesInDir(folder)
     jobs = []
     for fileName in files:
-        jobs.append([filter, fileName, lastN, lParam, rParam])
+        jobs.append([filter_, fileName, lastN, lParam, rParam])
 
     mgr = CMultiProcessMgr()
-    mgr.StartMultiProcess(processNum, jobs, AnalysisOneFile_MultiProcess_Fun,True)
+    mgr.StartMultiProcess(processNum, jobs,
+                          AnalysisOneFile_MultiProcess_Fun, True)
     res = mgr.getRes()
     ret = {}
     while(not res.empty()):
